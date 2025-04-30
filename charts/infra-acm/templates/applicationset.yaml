@@ -26,14 +26,14 @@ spec:
     spec:
       project: default
       source:
-        path: .
+        path: "{{ . }}"
         repoURL: "{{ $.Values.repoURL }}"
         targetRevision: HEAD
         helm:
           valueFiles:
-            - "values-global.yaml"
-            - "{{ . }}/values-env.yaml"
-            - "{{ . }}/{{`{{name}}`}}/values-cluster.yaml"
+            - "../values-global.yaml"
+            - "values-env.yaml"
+            - "{{`{{name}}`}}/values-cluster.yaml"
       destination:
         namespace: default
         server: "{{`{{server}}`}}"

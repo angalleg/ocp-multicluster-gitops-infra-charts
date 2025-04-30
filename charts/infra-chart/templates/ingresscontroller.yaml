@@ -1,0 +1,38 @@
+{{- if not (eq "logical" $.Values.environment) }}
+{{- range $key, $val := $.Values.ingresscontrollers }}
+
+---
+apiVersion: operator.openshift.io/v1
+kind: IngressController
+metadata:
+  name: "{{ $key }}"
+  namespace: openshift-ingress-operator
+spec:
+  clientTLS:
+    clientCA:
+      name: ""
+    clientCertificatePolicy: ""
+  domain: {{ $val.domain }}
+  {{- with $val.endpointPublishingStrategy }}
+  endpointPublishingStrategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  httpCompression: {}
+  httpEmptyRequestsPolicy: Respond
+  httpErrorCodePages:
+    name: ""
+  idleConnectionTerminationPolicy: Deferred
+  {{- with $val.namespaceSelector }}
+  namespaceSelector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $val.nodePlacement }}
+  nodePlacement:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  replicas: {{ $val.replicas }}
+  tuningOptions:
+    reloadInterval: 0s
+  unsupportedConfigOverrides: null
+{{- end }}
+{{- end }}

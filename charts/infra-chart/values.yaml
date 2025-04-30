@@ -1,0 +1,6 @@
+ldap:
+  url: "ldap://ldap.test.es:389/ou=users,dc=test,dc=test,dc=es?uid" 
+  bindDN: "uid=appopenshift,ou=users,dc=test,dc=test,dc=es" 
+  insecure: true
+
+environment: "logical"

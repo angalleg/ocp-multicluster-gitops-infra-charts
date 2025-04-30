@@ -1,3 +1,5 @@
+environment: "virtual"
+
 quotas_default:
   resources:
     pods: "4"
@@ -44,3 +46,31 @@ networking:
 argocd:
   enabled: true
   controller: openshift-gitops
+
+ldap:
+  url: "ldap://ldap.test.es:389/ou=users,dc=test,dc=test,dc=es?uid" 
+  bindDN: "uid=appopenshift,ou=users,dc=test,dc=test,dc=es" 
+  insecure: true
+
+ingresscontrollers:
+  des: 
+    domain: apps.des.ocpabpd.test.test.es
+    endpointPublishingStrategy:
+      hostNetwork:
+        httpPort: 8080
+        httpsPort: 8443
+        protocol: TCP
+        statsPort: 1937
+    namespaceSelector:
+      matchLabels:
+        testenv: des
+    nodePlacement:
+      nodeSelector:
+        matchLabels:
+          node-role.kubernetes.io/infra: ""
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/infra
+        operator: Equal
+    replicas: 2
+
